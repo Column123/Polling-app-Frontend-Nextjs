@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PollWave - Dynamic Polls for a Modern Audience</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        /* Use Inter as the default font */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0d1117; /* Dark background */
+        }
+        /* Hero background with gradient mesh */
+        .hero-gradient-bg {
+            background-color: #0d1117;
+            background-image:
+                radial-gradient(at 27% 37%, hsla(215, 98%, 61%, 0.1) 0px, transparent 50%),
+                radial-gradient(at 97% 21%, hsla(125, 98%, 72%, 0.1) 0px, transparent 50%),
+                radial-gradient(at 52% 99%, hsla(355, 98%, 71%, 0.1) 0px, transparent 50%),
+                radial-gradient(at 10% 29%, hsla(256, 96%, 68%, 0.1) 0px, transparent 50%),
+                radial-gradient(at 97% 96%, hsla(38, 60%, 74%, 0.1) 0px, transparent 50%),
+                radial-gradient(at 33% 50%, hsla(222, 67%, 73%, 0.1) 0px, transparent 50%),
+                radial-gradient(at 79% 53%, hsla(343, 68%, 73%, 0.1) 0px, transparent 50%);
+        }
+        /* Glassmorphism effect for cards */
+        .glass-card {
+            background: rgba(22, 27, 34, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        /* Glowing effect for buttons */
+        .glow-button {
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        .glow-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: all 650ms;
+            z-index: -1;
+        }
+        .glow-button:hover::before {
+            left: 100%;
+        }
+    </style>
+</head>
+<body class="text-slate-300">
+
+    <!-- Header/Navigation Bar -->
+    <header class="bg-black/30 backdrop-blur-md sticky top-0 z-50 border-b border-slate-800">
+        <nav class="container mx-auto px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo -->
+                <div class="flex-shrink-0">
+                    <a href="#" class="text-2xl font-bold text-white flex items-center">
+                        <svg class="w-7 h-7 text-cyan-400 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.898 20.562L16.25 22.5l-.648-1.938a3.375 3.375 0 00-2.672-2.672L11.25 18l1.938-.648a3.375 3.375 0 002.672-2.672L16.25 13.5l.648 1.938a3.375 3.375 0 002.672 2.672L21.75 18l-1.938.648a3.375 3.375 0 00-2.672 2.672z" />
+                        </svg>
+                        PollWave
+                    </a>
+                </div>
+                <!-- Desktop Navigation Links -->
+                <div class="hidden md:flex md:items-center md:space-x-8">
+                    <a href="#" class="text-slate-400 hover:text-white font-medium transition-colors">Use Cases</a>
+                    <a href="#" class="text-slate-400 hover:text-white font-medium transition-colors">My Polls</a>
+                </div>
+                <!-- User Profile and Logout -->
+                <div class="flex items-center space-x-4">
+                    <img class="h-9 w-9 rounded-full object-cover ring-2 ring-offset-2 ring-offset-slate-900 ring-cyan-500" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=2080&auto=format&fit=crop" alt="User avatar">
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="relative text-center py-24 sm:py-32 hero-gradient-bg overflow-hidden">
+             <div class="absolute inset-0 bg-grid-slate-800 [mask-image:linear-gradient(0deg,#000,rgba(0,0,0,0))]"></div>
+            <div class="container mx-auto px-6 lg:px-8 relative">
+                <h1 class="text-4xl md:text-6xl font-black text-white tracking-tighter">Your Question, Their Voice. Instantly.</h1>
+                <p class="mt-6 max-w-2xl mx-auto text-lg text-slate-400">
+                    Launch a poll in seconds. No sign-up required to vote. Just pure, real-time feedback.
+                </p>
+                <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <input id="heroPollInput" type="text" placeholder="Type your poll question here..." class="w-full max-w-md bg-slate-800/50 border border-slate-700 text-white rounded-lg px-5 py-3 focus:ring-2 focus:ring-cyan-400 focus:outline-none transition-all placeholder-slate-500">
+                    <button id="heroCreatePollBtn" class="glow-button w-full sm:w-auto inline-flex items-center justify-center px-7 py-3 font-semibold rounded-lg bg-cyan-500 text-slate-900 hover:bg-cyan-400 transition-all shadow-lg shadow-cyan-500/20">
+                        Create Poll
+                    </button>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Other sections remain the same... -->
+        <section class="py-20 sm:py-24 bg-slate-900/70">
+            <div class="container mx-auto px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl sm:text-4xl font-bold text-white">Perfect For Any Occasion</h2>
+                    <p class="mt-4 text-slate-400 max-w-xl mx-auto">From classrooms to boardrooms, get the pulse of any group.</p>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                    <!-- Case 1 -->
+                    <div class="flex flex-col items-center">
+                        <div class="flex items-center justify-center h-16 w-16 rounded-2xl bg-slate-800 text-cyan-400 mb-4">
+                           <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0l-.07.004-.018.002-.006.001c-.004.001-.007 0-.011.001M12 10.5a2.25 2.25 0 110-4.5 2.25 2.25 0 010 4.5z" /></svg>
+                        </div>
+                        <h3 class="text-lg font-semibold text-white">Teachers</h3>
+                    </div>
+                    <!-- Case 2 -->
+                    <div class="flex flex-col items-center">
+                        <div class="flex items-center justify-center h-16 w-16 rounded-2xl bg-slate-800 text-pink-400 mb-4">
+                            <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6a7.5 7.5 0 100 15 7.5 7.5 0 000-15zM21 21l-5.197-5.197" /></svg>
+                        </div>
+                        <h3 class="text-lg font-semibold text-white">Marketers</h3>
+                    </div>
+                    <!-- Case 3 -->
+                    <div class="flex flex-col items-center">
+                        <div class="flex items-center justify-center h-16 w-16 rounded-2xl bg-slate-800 text-amber-400 mb-4">
+                           <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h12A2.25 2.25 0 0020.25 14.25V3.75M16.5 18.75h-9" /></svg>
+                        </div>
+                        <h3 class="text-lg font-semibold text-white">Streamers</h3>
+                    </div>
+                     <!-- Case 4 -->
+                    <div class="flex flex-col items-center">
+                        <div class="flex items-center justify-center h-16 w-16 rounded-2xl bg-slate-800 text-lime-400 mb-4">
+                            <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m-7.5-2.228a4.5 4.5 0 00-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 001.13-1.897L16.5 7.5m0 0l2.84-2.84a6.086 6.086 0 00-8.482-8.482l-2.84 2.84M16.5 7.5l-2.84 2.84m0 0l-2.84 2.84m2.84-2.84l2.84 2.84" /></svg>
+                        </div>
+                        <h3 class="text-lg font-semibold text-white">Teams</h3>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="py-20 sm:py-24">
+            <div class="container mx-auto px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl sm:text-4xl font-bold text-white">Trending Polls</h2>
+                    <p class="mt-4 text-slate-400 max-w-xl mx-auto">See what the world is asking right now.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Poll Cards... -->
+                    <div class="glass-card rounded-xl overflow-hidden group transition-all duration-300 hover:border-cyan-400/50 hover:shadow-2xl hover:shadow-cyan-500/10">
+                        <div class="p-6">
+                            <p class="text-sm text-slate-400 mb-2">1,204 votes</p>
+                            <h3 class="text-lg font-semibold text-white mb-4 h-12">What's your favorite programming language?</h3>
+                            <div class="space-y-2 text-slate-300">
+                                <p>• JavaScript</p>
+                                <p>• Python</p>
+                                <p>• Rust</p>
+                            </div>
+                        </div>
+                        <div class="p-4 bg-cyan-500/10 border-t border-slate-800 text-center">
+                            <a href="#" class="font-semibold text-cyan-400 group-hover:text-white transition-colors">Vote Now &rarr;</a>
+                        </div>
+                    </div>
+                    <div class="glass-card rounded-xl overflow-hidden group transition-all duration-300 hover:border-pink-400/50 hover:shadow-2xl hover:shadow-pink-500/10">
+                        <div class="p-6">
+                            <p class="text-sm text-slate-400 mb-2">488 votes</p>
+                            <h3 class="text-lg font-semibold text-white mb-4 h-12">Which continent would you most like to visit?</h3>
+                            <div class="space-y-3">
+                                <div class="w-full bg-slate-700 rounded-full h-2"><div class="bg-pink-500 h-2 rounded-full" style="width: 52%"></div></div>
+                                <div class="w-full bg-slate-700 rounded-full h-2"><div class="bg-pink-500 h-2 rounded-full opacity-60" style="width: 28%"></div></div>
+                                <div class="w-full bg-slate-700 rounded-full h-2"><div class="bg-pink-500 h-2 rounded-full opacity-40" style="width: 20%"></div></div>
+                            </div>
+                        </div>
+                        <div class="p-4 bg-pink-500/10 border-t border-slate-800 text-center">
+                            <a href="#" class="font-semibold text-pink-400 group-hover:text-white transition-colors">View Results &rarr;</a>
+                        </div>
+                    </div>
+                    <div class="glass-card rounded-xl overflow-hidden group opacity-60">
+                        <div class="p-6">
+                            <p class="text-sm text-slate-500 mb-2">876 votes</p>
+                            <h3 class="text-lg font-semibold text-slate-300 mb-4 h-12">What's the best way to start the day?</h3>
+                             <div class="space-y-3">
+                                <div class="w-full bg-slate-700 rounded-full h-2"><div class="bg-slate-500 h-2 rounded-full" style="width: 60%"></div></div>
+                                <div class="w-full bg-slate-700 rounded-full h-2"><div class="bg-slate-500 h-2 rounded-full" style="width: 25%"></div></div>
+                                <div class="w-full bg-slate-700 rounded-full h-2"><div class="bg-slate-500 h-2 rounded-full" style="width: 15%"></div></div>
+                            </div>
+                        </div>
+                        <div class="p-4 bg-slate-800/50 border-t border-slate-800 text-center">
+                            <span class="font-semibold text-slate-500">Poll Closed</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-800">
+        <div class="container mx-auto py-8 px-6 lg:px-8 text-center text-slate-500">
+            <p>&copy; 2024 PollWave. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Create Poll Modal -->
+    <div id="createPollModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70 backdrop-blur-sm hidden">
+        <div class="glass-card w-full max-w-lg rounded-2xl shadow-2xl shadow-cyan-500/10 m-4">
+            <!-- Modal Header -->
+            <div class="flex items-center justify-between p-5 border-b border-slate-800">
+                <h3 class="text-xl font-bold text-white">Create a New Poll</h3>
+                <button id="closeModalBtn" class="text-slate-400 hover:text-white transition-colors">
+                    <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+            </div>
+            <!-- Modal Body -->
+            <div class="p-6">
+                <form action="#">
+                    <div class="mb-4">
+                        <label for="pollQuestion" class="block mb-2 text-sm font-medium text-slate-300">Your Question</label>
+                        <input type="text" id="pollQuestion" class="w-full bg-slate-800/50 border border-slate-700 text-white rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-cyan-400 focus:outline-none transition-all" placeholder="e.g., What should we order for lunch?">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block mb-2 text-sm font-medium text-slate-300">Options</label>
+                        <div id="pollOptionsContainer" class="space-y-2">
+                            <input type="text" name="poll_option" class="w-full bg-slate-800/50 border border-slate-700 text-white rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-cyan-400 focus:outline-none transition-all" placeholder="Option 1">
+                            <input type="text" name="poll_option" class="w-full bg-slate-800/50 border border-slate-700 text-white rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-cyan-400 focus:outline-none transition-all" placeholder="Option 2">
+                        </div>
+                    </div>
+                    <button type="button" id="addOptionBtn" class="w-full text-sm font-semibold text-cyan-400 hover:text-cyan-300 py-2 text-left">+ Add another option</button>
+                    <!-- Modal Footer -->
+                    <div class="mt-6 pt-4 border-t border-slate-800 flex justify-end">
+                        <button type="submit" class="glow-button w-full sm:w-auto inline-flex items-center justify-center px-6 py-2.5 font-semibold rounded-lg bg-cyan-500 text-slate-900 hover:bg-cyan-400 transition-all shadow-lg shadow-cyan-500/20">
+                            Launch Poll
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Modal Script ---
+        const modal = document.getElementById('createPollModal');
+        const openModalBtn = document.getElementById('heroCreatePollBtn');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const heroInput = document.getElementById('heroPollInput');
+        const modalInput = document.getElementById('pollQuestion');
+        const addOptionBtn = document.getElementById('addOptionBtn');
+        const optionsContainer = document.getElementById('pollOptionsContainer');
+
+        // Function to open the modal
+        const openModal = () => {
+            // Pre-fill the modal's question input with the hero input's value
+            if (heroInput.value) {
+                modalInput.value = heroInput.value;
+            }
+            modal.classList.remove('hidden');
+        };
+
+        // Function to close the modal
+        const closeModal = () => {
+            modal.classList.add('hidden');
+        };
+
+        // Function to add a new poll option input field
+        const addOption = () => {
+            const optionCount = optionsContainer.getElementsByTagName('input').length;
+            const newOptionInput = document.createElement('input');
+            newOptionInput.type = 'text';
+            newOptionInput.name = 'poll_option';
+            newOptionInput.className = 'w-full bg-slate-800/50 border border-slate-700 text-white rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-cyan-400 focus:outline-none transition-all';
+            newOptionInput.placeholder = `Option ${optionCount + 1}`;
+            optionsContainer.appendChild(newOptionInput);
+            newOptionInput.focus();
+        };
+
+        // Event Listeners
+        openModalBtn.addEventListener('click', openModal);
+        closeModalBtn.addEventListener('click', closeModal);
+        addOptionBtn.addEventListener('click', addOption);
+
+        // Close modal if user clicks outside of the modal content
+        modal.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                closeModal();
+            }
+        });
+
+        // Close modal on 'Escape' key press
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && !modal.classList.contains('hidden')) {
+                closeModal();
+            }
+        });
+    </script>
+
+</body>
+</html>
