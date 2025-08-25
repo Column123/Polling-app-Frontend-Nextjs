@@ -8,7 +8,7 @@ export default function Home() {
      this is base page
     </div>
     <Link href={"/LogIn-SignUp"}>Go to about</Link>
-    <LoadingSpinner/>
+    <LoadingSpinner />
     </>
   );
 }

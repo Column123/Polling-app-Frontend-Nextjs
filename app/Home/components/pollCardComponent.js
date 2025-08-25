@@ -1,4 +1,4 @@
-export default function PollCard ({ poll }){
+export default function PollCard({ poll }) {
     return (
         <div className="bg-slate-800/50 border border-slate-800 rounded-xl overflow-hidden group transition-all duration-300 hover:border-cyan-400/50 hover:shadow-2xl hover:shadow-cyan-500/10 flex flex-col">
             <div className="p-6 flex-grow">
@@ -10,8 +10,8 @@ export default function PollCard ({ poll }){
                     ))}
                 </div>
             </div>
-            <div className="p-4 bg-cyan-500/10 border-t border-slate-800 text-center">
-                <a href="#" className="font-semibold text-cyan-400 group-hover:text-white transition-colors">
+            <div className="border-t border-slate-800">
+                <a href="#" className="block w-full p-4 text-center font-semibold text-cyan-400 bg-cyan-500/10 transition-colors duration-300 group-hover:bg-cyan-500 group-hover:text-white">
                     Vote Now
                 </a>
             </div>

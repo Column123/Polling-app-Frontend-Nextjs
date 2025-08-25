@@ -1,6 +1,6 @@
 'use client'
 import { useState, useEffect } from "react";
-import { logInApi } from "@/utils/logInApi";
+import { logInApi } from "@/utils/accountApi";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../../context/authContex";
 
@@ -10,14 +10,11 @@ export default function LogIn({ toggleView }) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
-  const { accessToken, login, isAuthenticated } = useAuth();
+  const { login } = useAuth();
 
   const router = useRouter();
 
   useEffect(() => {
-    if(isAuthenticated){
-      router.replace('/Home');
-    }
     setIsLoaded(true);
   }, [])
 
@@ -52,11 +49,9 @@ export default function LogIn({ toggleView }) {
       console.error("Login API call failed:", err);
       setError('Something went wrong. Please try again later.');
     } finally {
-      // 5. Set loading back to false after the API call is complete
       setIsLoading(false);
     }
   }
-
 
   return (
     <div className="flex items-center justify-center min-h-screen font-sans bg-gray-50">

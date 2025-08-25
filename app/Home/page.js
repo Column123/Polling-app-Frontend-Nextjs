@@ -9,9 +9,9 @@ export default function HomePage() {
 
 
     const navItems = [
-        { name: 'Home', link: '/' },
+        { name: 'Home', link: '/Home' },
         { name: 'About', link: '/' },
-        { name: 'All Polls', link: '/' },
+        { name: 'All Polls', link: 'Home/polls' },
         { name: 'MyPolls', link: '/' },]
     return (
         <div >

@@ -2,14 +2,15 @@
 
 import { createContext, useContext, useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { refreshToken } from "@/utils/refreshTokenApi";
+import { refreshToken } from "@/utils/accountApi";
+import { logoutApi } from '@/utils/accountApi';
 
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
   const [username, setUsername] = useState(null);
   const [accessToken, setAccessToken] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [isAuthenticating, IsAuthenticating] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const router = useRouter();
 
@@ -29,19 +30,19 @@ export function AuthProvider({ children }) {
             login(data.username, data.accessToken);
           } catch (error) {
             console.error("Session refresh failed:", error);
-            router.push('/Login-SignUp');
+            router.push('/LogIn-SignUp');
           }
         }
       } catch (error) {
         console.error("Auth initialization error:", error);
         setIsAuthenticated(false);
       } finally {
-        setLoading(false);
+        IsAuthenticating(false);
       }
     };
 
     initializeAuth();
-  }, []); // The empty dependency array ensures this runs only once
+  }, []); 
 
   const login = (userData, token) => {
     setUsername(userData);
@@ -51,13 +52,18 @@ export function AuthProvider({ children }) {
     localStorage.setItem('accessToken', token);
   };
 
-  const logout = () => {
+  const logout = async () => {
+    try{
+      const response = await logoutApi();
+    }
+    catch(error){
+      console.log(error);
+    }
     setUsername(null);
     setAccessToken(null);
     setIsAuthenticated(false);
     localStorage.removeItem('username');
     localStorage.removeItem('accessToken');
-    router.push('/Login-SignUp');
   };
 
   const value = {
@@ -66,11 +72,12 @@ export function AuthProvider({ children }) {
     login,
     logout,
     isAuthenticated,
+    isAuthenticating,
   };
 
   return (
     <AuthContext.Provider value={value}>
-      {!loading && children}
+      {children}
     </AuthContext.Provider>
   );
 }
